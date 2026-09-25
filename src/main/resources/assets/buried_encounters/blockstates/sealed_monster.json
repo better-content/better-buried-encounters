@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "palette=0": { "model": "minecraft:block/gravel" },
+    "palette=1": { "model": "minecraft:block/tuff" },
+    "palette=2": { "model": "minecraft:block/coarse_dirt" }
+  }
+}
