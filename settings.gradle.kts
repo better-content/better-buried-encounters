@@ -6,4 +6,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = "buried-encounters"
+rootProject.name = "better-buried-encounters"

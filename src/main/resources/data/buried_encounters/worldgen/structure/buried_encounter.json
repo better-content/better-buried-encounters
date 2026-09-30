@@ -1,6 +1,0 @@
-{
-  "type": "buried_encounters:buried_encounter",
-  "biomes": "#buried_encounters:has_structure/buried_encounter",
-  "spawn_overrides": {},
-  "step": "surface_structures"
-}

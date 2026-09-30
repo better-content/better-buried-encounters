@@ -1,6 +1,6 @@
-# Buried Encounters
+# Better Buried Encounters
 
-Buried Encounters adds rare, large surface sites with most of their encounter hidden just
+Better Buried Encounters adds rare, large surface sites with most of their encounter hidden just
 under the local ground. A half-buried TNT pile marks the center. Thirty-two sealed monster
 blocks are scattered through the surrounding field; destroying one releases its stored mob.
 

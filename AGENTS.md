@@ -1,10 +1,10 @@
-# Buried Encounters
+# Better Buried Encounters
 
 ## Project identity
 
-- Repository and artifact: `buried-encounters`
-- Mod ID and namespace: `buried_encounters`
-- Base package: `com.bettercontent.buriedencounters`
+- Repository and artifact: `better-buried-encounters`
+- Mod ID and namespace: `better_buried_encounters`
+- Base package: `com.bettercontent.betterburiedencounters`
 - Java 17, Minecraft Forge 1.20.1 / 47.4.13
 
 ## Scope
