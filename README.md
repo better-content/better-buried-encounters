@@ -1,5 +1,11 @@
 # Better Buried Encounters
 
+## Scope and authority
+
+This repository owns its mod-specific behavior and authoring inputs. Read [local instructions](AGENTS.md)
+and the [shared documentation/policy index](../../better-content-modpack/docs/README.md).
+
+
 Better Buried Encounters adds rare, large surface sites with most of their encounter hidden just
 under the local ground. A half-buried TNT pile marks the center. Thirty-two sealed monster
 blocks are scattered through the surrounding field; destroying one releases its stored mob.

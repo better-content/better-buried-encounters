@@ -1,25 +1,12 @@
 # Better Buried Encounters
 
-## Project identity
+Forge 1.20.1 / Java 17; mod ID `better_buried_encounters`;
+base package `com.bettercontent.betterburiedencounters`.
+Rare large Overworld buried TNT sites; no Explosion Overhaul/optional monster dependency.
+Optional entity IDs must be guarded/inert when absent.
+Deterministic/reobfuscated JAR: `./gradlew verifyFast`; Forge GameTests: `./gradlew verifyFull`.
+Stage: `./gradlew stageRuntimeJar`, `build/libs/better-buried-encounters-<version>.jar`.
 
-- Repository and artifact: `better-buried-encounters`
-- Mod ID and namespace: `better_buried_encounters`
-- Base package: `com.bettercontent.betterburiedencounters`
-- Java 17, Minecraft Forge 1.20.1 / 47.4.13
-
-## Scope
-
-This mod adds rare, large Overworld buried TNT encounter sites. It has no dependency on
-Explosion Overhaul or optional monster mods. Keep optional entity IDs guarded and inert
-when their mods are absent.
-
-## Validation
-
-- Run `./gradlew verifyFast` for unit tests and the reobfuscated runtime JAR.
-- Run `./gradlew verifyFull` for Forge GameTests.
-- Keep generated Gradle state, build output, runtime worlds, logs, and IDE files untracked.
-
-## Commit discipline
-
-Commit coherent changes after required validation passes. Push only when a canonical
-remote exists.
+Read [shared workspace policy](../../better-content-modpack/docs/policies/workspace.md)
+and its linked testing/disposal policies. Docs-only changes use the shared document check
+and `git diff --check`, not unrelated runtime builds.
