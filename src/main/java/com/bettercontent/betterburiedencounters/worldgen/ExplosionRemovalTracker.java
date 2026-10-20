@@ -28,6 +28,7 @@ public final class ExplosionRemovalTracker {
         Map<BlockPos, PendingSpawn> pending = PENDING.get(serverLevel);
         if (pending == null) return false;
         boolean removed = pending.remove(pos) != null;
+        if (removed) outcome("consumed", "native_callback");
         if (pending.isEmpty()) PENDING.remove(serverLevel);
         return removed;
     }
@@ -42,11 +43,13 @@ public final class ExplosionRemovalTracker {
             BlockPos pos = entry.getKey();
             PendingSpawn spawn = entry.getValue();
             if (tick - spawn.startedAt() > MAX_WAIT_TICKS) {
+                outcome("expired", "timeout");
                 iterator.remove();
             } else if (level.hasChunkAt(pos)) {
                 BlockState state = level.getBlockState(pos);
                 if (!state.is(BuriedRegistries.SEALED_MONSTER.get())) {
                     MonsterSpawner.spawn(level, pos, spawn.entityId());
+                    outcome("dispatched", "observed_block_removal");
                     iterator.remove();
                 }
             }
@@ -55,7 +58,12 @@ public final class ExplosionRemovalTracker {
     }
 
     public static void forget(ServerLevel level) {
-        PENDING.remove(level);
+        if (PENDING.remove(level) != null) outcome("cancelled", "level_unload");
+    }
+
+    private static void outcome(String result, String reason) {
+        var log = com.bettercontent.betterburiedencounters.PlaytestDiagnostics.LOG;
+        if (log.enabled("removal")) log.event("removal", "sealed_monster.removal_watch", "server", result, reason, null);
     }
 
     private record PendingSpawn(ResourceLocation entityId, int startedAt) {

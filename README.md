@@ -1,5 +1,16 @@
 # Better Buried Encounters
 
+## Playtest logging
+
+`bc.playtest.better_buried_encounters.release` distinguishes absent optional types, non-Mob
+creation and actual native insertion; `.removal` observes native callback consumption, asynchronous
+removal dispatch, timeout and unload cancellation. Dispatch never claims successful spawning.
+No entity payloads or per-block worldgen stream is logged. DEBUG/TRACE share 120/minute (burst 20),
+256 aggregation keys and 2,048-character records, with 30-second coalesced summaries. Startup INFO
+reports version/mode/limits and Explosion Overhaul presence; unavailable source identity is
+`UNKNOWN`. Stop/disconnect clears transient diagnostics without rearming process allowances.
+Pure emitter/contracts supplement the existing sealed-block/asynchronous-removal native gates.
+
 ## Scope and authority
 
 This repository owns its mod-specific behavior and authoring inputs. Read [local instructions](AGENTS.md)

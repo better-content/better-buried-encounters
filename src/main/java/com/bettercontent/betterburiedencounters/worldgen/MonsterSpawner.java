@@ -16,15 +16,30 @@ public final class MonsterSpawner {
     public static void spawn(Level level, BlockPos pos, ResourceLocation entityId) {
         if (!(level instanceof ServerLevel serverLevel)) return;
         var type = BuiltInRegistries.ENTITY_TYPE.getOptional(entityId).orElse(null);
-        if (type == null) return;
+        if (type == null) {
+            outcome(serverLevel, "rejected", "optional_type_absent");
+            return;
+        }
         Entity created = type.create(serverLevel);
-        if (!(created instanceof Mob mob)) return;
+        if (!(created instanceof Mob mob)) {
+            outcome(serverLevel, "rejected", "not_mob");
+            return;
+        }
         BlockPos spawnPos = findOpenPosition(serverLevel, mob, pos);
         mob.moveTo(spawnPos.getX() + 0.5, spawnPos.getY(), spawnPos.getZ() + 0.5,
                 serverLevel.random.nextFloat() * 360.0F, 0.0F);
         mob.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(pos),
                 MobSpawnType.TRIGGERED, null, null);
-        serverLevel.addFreshEntity(mob);
+        boolean inserted = serverLevel.addFreshEntity(mob);
+        var log = com.bettercontent.betterburiedencounters.PlaytestDiagnostics.LOG;
+        if (log.enabled("release")) com.bettercontent.betterburiedencounters.diagnostics.FeatureTelemetry.release(log, inserted);
+    }
+
+    private static void outcome(ServerLevel level, String result, String reason) {
+        var log = com.bettercontent.betterburiedencounters.PlaytestDiagnostics.LOG;
+        if (log.enabled("release")) log.debug("release", "sealed_monster.release",
+                com.bettercontent.betterburiedencounters.diagnostics.PlaytestLog.Context.server(level.dimension().location().toString(), level.getGameTime()),
+                result, reason, null);
     }
 
     private static BlockPos findOpenPosition(ServerLevel level, Mob mob, BlockPos origin) {
