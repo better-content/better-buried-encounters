@@ -17,12 +17,12 @@ public final class MonsterSpawner {
         if (!(level instanceof ServerLevel serverLevel)) return;
         var type = BuiltInRegistries.ENTITY_TYPE.getOptional(entityId).orElse(null);
         if (type == null) {
-            outcome(serverLevel, "rejected", "optional_type_absent");
+            outcome(serverLevel, pos, null, "rejected", "optional_type_absent");
             return;
         }
         Entity created = type.create(serverLevel);
         if (!(created instanceof Mob mob)) {
-            outcome(serverLevel, "rejected", "not_mob");
+            outcome(serverLevel, pos, created, "rejected", "not_mob");
             return;
         }
         BlockPos spawnPos = findOpenPosition(serverLevel, mob, pos);
@@ -32,13 +32,20 @@ public final class MonsterSpawner {
                 MobSpawnType.TRIGGERED, null, null);
         boolean inserted = serverLevel.addFreshEntity(mob);
         var log = com.bettercontent.betterburiedencounters.PlaytestDiagnostics.LOG;
-        if (log.enabled("release")) com.bettercontent.betterburiedencounters.diagnostics.FeatureTelemetry.release(log, inserted);
+        if (log.enabled("release")) com.bettercontent.betterburiedencounters.diagnostics.FeatureTelemetry.release(log,
+                context(serverLevel, pos, mob), inserted);
     }
 
-    private static void outcome(ServerLevel level, String result, String reason) {
+    private static com.bettercontent.betterburiedencounters.diagnostics.PlaytestLog.Context context(ServerLevel level, BlockPos origin, Entity created) {
+        return new com.bettercontent.betterburiedencounters.diagnostics.PlaytestLog.Context("server",
+                level.dimension().location().toString(), level.getGameTime(), created == null ? "" : created.getStringUUID(),
+                origin.getX() + "," + origin.getY() + "," + origin.getZ());
+    }
+
+    private static void outcome(ServerLevel level, BlockPos origin, Entity created, String result, String reason) {
         var log = com.bettercontent.betterburiedencounters.PlaytestDiagnostics.LOG;
         if (log.enabled("release")) log.debug("release", "sealed_monster.release",
-                com.bettercontent.betterburiedencounters.diagnostics.PlaytestLog.Context.server(level.dimension().location().toString(), level.getGameTime()),
+                context(level, origin, created),
                 result, reason, null);
     }
 

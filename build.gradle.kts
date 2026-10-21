@@ -80,6 +80,8 @@ val syncGameTestStructures by tasks.registering(Copy::class) {
 tasks.matching { it.name.startsWith("prepareRunGameTestServer") }.configureEach {
     dependsOn(syncGameTestStructures)
 }
+apply(from = "gradle/native-gametest-fixture.gradle")
+
 tasks.register("verifyFull") {
     dependsOn(tasks.named("verifyFast"), tasks.named("runGameTestServer"))
 }

@@ -1,11 +1,21 @@
 # Better Buried Encounters
 
+## Native fixture verification
+
+`verifyFast` checks absent-only native settings preparation, preservation of existing settings,
+and synthetic ERROR/FATAL rejection. `verifyFull` prepares defaults-only `server.properties` in
+ForgeGradle's actual native RunConfig directory and rejects actual native ERROR/FATAL.
+
 ## Playtest logging
 
 `bc.playtest.better_buried_encounters.release` distinguishes absent optional types, non-Mob
 creation and actual native insertion; `.removal` observes native callback consumption, asynchronous
-removal dispatch, timeout and unload cancellation. Dispatch never claims successful spawning.
-No entity payloads or per-block worldgen stream is logged. DEBUG/TRACE share 120/minute (burst 20),
+removal dispatch, timeout and unload cancellation. Admission/consume/expire/dispatch and release
+share the native dimension, game tick and sealed-block source position. A created entity's native
+UUID links its insertion result to that source; rejection before creation has no invented UUID.
+These bounded causal origins/UUIDs are intentional, not a per-block worldgen stream. Unload-only
+cancellation has level context without an extra position traversal. Dispatch never claims successful
+spawning. No player names, entity payloads or seeds are logged. DEBUG/TRACE share 120/minute (burst 20),
 256 aggregation keys and 2,048-character records, with 30-second coalesced summaries. Startup INFO
 reports version/mode/limits and Explosion Overhaul presence; unavailable source identity is
 `UNKNOWN`. Stop/disconnect clears transient diagnostics without rearming process allowances.
