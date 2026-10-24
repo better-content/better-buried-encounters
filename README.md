@@ -21,11 +21,7 @@ reports version/mode/limits and Explosion Overhaul presence; unavailable source 
 `UNKNOWN`. Stop/disconnect clears transient diagnostics without rearming process allowances.
 Pure emitter/contracts supplement the existing sealed-block/asynchronous-removal native gates.
 
-## Scope and authority
-
-This repository owns its mod-specific behavior and authoring inputs. Read [local instructions](AGENTS.md)
-and the [shared documentation/policy index](../../better-content-modpack/docs/README.md).
-
+## Scope
 
 Better Buried Encounters adds rare, large surface sites with most of their encounter hidden just
 under the local ground. A half-buried TNT pile marks the center. Thirty-two sealed monster
@@ -45,3 +41,8 @@ undead provide fallbacks.
 Run `./gradlew verifyFast` for deterministic layout tests and a runtime JAR. Run
 `./gradlew verifyFull` to execute the Forge GameTests for sealed-block destruction and the
 Explosion Overhaul asynchronous removal path.
+
+## Feature boundaries
+
+Rare large Overworld buried TNT sites; no Explosion Overhaul/optional monster dependency.
+Optional entity IDs must be guarded/inert when absent.
