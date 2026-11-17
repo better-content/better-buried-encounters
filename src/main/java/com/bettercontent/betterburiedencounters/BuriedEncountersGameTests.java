@@ -82,6 +82,27 @@ public final class BuriedEncountersGameTests {
         helper.succeed();
     }
 
+    @GameTest(templateNamespace = "minecraft", template = "empty", batch = "buried_break", timeoutTicks = 40)
+    public static void storedMobSurvivesBlockEntityNbtRoundTripBeforeRelease(GameTestHelper helper) {
+        BlockPos pos = helper.absolutePos(new BlockPos(2, 2, 2));
+        putSealedMob(helper, pos, "zombie");
+        var sealed = (SealedMonsterBlockEntity) helper.getLevel().getBlockEntity(pos);
+        var saved = sealed.saveWithoutMetadata();
+        sealed.setEntityId(new net.minecraft.resources.ResourceLocation("minecraft", "silverfish"));
+        sealed.load(saved);
+        helper.assertTrue(sealed.entityId().equals(new net.minecraft.resources.ResourceLocation("minecraft", "zombie")),
+                "sealed mob identity must survive block entity NBT serialization");
+        helper.getLevel().destroyBlock(pos, false);
+        helper.runAfterDelay(1, () -> {
+            var zombies = mobsNear(helper.getLevel(), pos, Zombie.class);
+            helper.assertTrue(zombies.size() == 1, "restored sealed block must release the persisted mob once");
+            helper.assertTrue(mobsNear(helper.getLevel(), pos, Silverfish.class).isEmpty(),
+                    "temporary in-memory mob identity must not replace the persisted identity");
+            zombies.forEach(net.minecraft.world.entity.Mob::discard);
+            helper.succeed();
+        });
+    }
+
     @GameTest(templateNamespace = "minecraft", template = "empty", batch = "buried_worldgen", timeoutTicks = 40)
     public static void buriedStructureAndRareStructureSetAreRegistered(GameTestHelper helper) {
         var registryAccess = helper.getLevel().registryAccess();
